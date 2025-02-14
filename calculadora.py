@@ -1,12 +1,10 @@
 vet_numeros = []
 vet_operadores = []
-vet_final = []
 operador = ''
 num_fatores = 0
 operadores_maior_prioridade = ["*", "/"]
 operadores_menor_prioridade = ["+", "-"]
 i = 0
-mult_ou_div = 0
 
 # nao aumentar o tamanho da lista se for mult/div
 
@@ -24,39 +22,28 @@ while operador != '=' :
             elif operador == "/"  and numero_digitado != 0 :
                 vet_numeros[num_fatores-1] = vet_numeros[num_fatores-1] / vet_numeros[num_fatores]
                 vet_numeros.pop(num_fatores)
-
-            mult_ou_div = 1        
+        
         else:
             vet_operadores.append(operador)
             i += 1
 
     operador = input("\nDigite um operador [+, -, *, /. ou = para terminar a operação.]: ")
 
-if mult_ou_div == 1 :                                  # checa se houve multiplicação ou divisao na expressao
-    for j in range (num_fatores+(num_fatores-1)) :         # codigo para "montar" o vetor vet_final, 
-        if j % 2 == 0 :                                    # unindo os dois vetores anteriores
-            vet_final.append(vet_numeros[int(j/2)])
+vet_resultado = []
+for i in range(len(vet_numeros) + len(vet_operadores)) :
+    if i % 2 == 0 :
+        if i == 0 :    
+            vet_resultado.append(vet_numeros[0])
         else:
-            vet_final.append(vet_operadores[j//2])
-else:
-    for b in range (i) :
-        if b % 2 == 0 :                            
-            vet_final.append(vet_numeros[int(b/2)])
+            vet_resultado.append(vet_numeros[i//2])
+    else:
+        if i == 1:
+            vet_resultado.append(vet_operadores[0])
         else:
-            vet_final.append(vet_operadores[b//2])
+            vet_resultado.append(vet_operadores[i//2])
 
-resultado = vet_final[0]  # variavel 'resultado' recebe o valor do primeiro numero da expressao
+resultado = eval(' '.join(map(str, vet_resultado)))
 
-for k in range (1, len(vet_final), 2) :  # codigo para transformar as informações no 
-    operador = vet_final[k]              # vet_final em expressao matemática
-    numero = float(vet_final[k+1])
-
-    if operador == "+" :
-        resultado += numero
-    elif operador == "-" :
-        resultado -= numero
-
-
-print(f"\n{resultado}")
+print(f"\n{resultado}") # calma
 
 end = input("digite enter para finalizar o programa.")
